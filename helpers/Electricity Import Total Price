@@ -1,0 +1,25 @@
+###########
+# Helper
+###########
+entity_id: sensor.electricity_import_total_price
+state: '3.896'
+last_changed: '2026-09-13T19:45:00.015Z'
+last_updated: '2026-09-13T19:45:00.015Z'
+attributes:
+  unit_of_measurement: SEK/kWh
+  device_class: monetary
+  friendly_name: Electricity Import Total Price
+
+###########
+# Template
+###########
+{% set spot = states('sensor.nord_pool_se4_current_price') | float(0.0) %}
+
+{# --- ADJUST YOUR FEES HERE (SEK/kWh ex. VAT) --- #}
+{% set supplier_markup = 0.0928 %}
+{% set energy_tax = 0.36 %}
+{% set grid_transfer_fee = 0.2152 %}
+{% set vat_rate = 1.25 %}
+
+{% set subtotal = spot + supplier_markup + energy_tax + grid_transfer_fee %}
+{{ (subtotal * vat_rate) | round(4) }}
