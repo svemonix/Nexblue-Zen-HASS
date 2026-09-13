@@ -1,0 +1,13 @@
+entity_id: sensor.grid_import_power
+state: '495.35'
+last_changed: '2026-09-13T19:57:14.975Z'
+last_updated: '2026-09-13T19:57:14.975Z'
+attributes:
+  unit_of_measurement: W
+  device_class: power
+  friendly_name: Grid Import Power
+
+############
+# Template
+############
+{{ [states('sensor.house_net_power_draw')|float(0), 0]|max }}
