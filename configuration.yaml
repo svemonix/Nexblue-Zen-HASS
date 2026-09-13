@@ -1,0 +1,32 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+command_line:
+  - sensor:
+      name: "House Net Power Draw"
+      unique_id: house_net_power_draw
+      command: "python3 /config/scripts/get_house_power.py"
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      scan_interval: 10
+      value_template: >-
+        {% if value_json is defined and value_json.power is defined and value_json.power | is_number %}
+          {{ value_json.power }}
+        {% else %}
+          0.0
+        {% endif %}
+
+shell_command:
+  set_zen_mode_dynamic: "python3 /config/scripts/nexblue_zen_mode.py dynamic"
+  set_zen_mode_solar_only: "python3 /config/scripts/nexblue_zen_mode.py solaronly"
+  set_zen_mode_solar_first: "python3 /config/scripts/nexblue_zen_mode.py solarfirst"
