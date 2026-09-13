@@ -1,0 +1,22 @@
+##########  
+# Helper
+##########
+entity_id: sensor.electricity_export_total_price
+state: '2.5139'
+last_changed: '2026-09-13T19:45:00.015Z'
+last_updated: '2026-09-13T19:45:00.015Z'
+attributes:
+  unit_of_measurement: SEK/kWh
+  device_class: monetary
+  friendly_name: Electricity Export Total Price
+
+##########  
+# TEMPLATE
+##########
+{% set spot = states('sensor.nord_pool_se4_current_price') | float(0.0) %}
+
+{# --- ADJUST YOUR FIXED CREDITS / DISCOUNTS HERE (SEK/kWh) --- #}
+{% set natnytta_credit = 0.0651 %}      {# Grid owner network benefit credit (e.g., 0.05 SEK/kWh) #}
+{% set buyer_commission = 0.00 %}     {# Fee deducted by your electricity supplier, if any #}
+
+{{ (spot + natnytta_credit - buyer_commission) | round(4) }}
