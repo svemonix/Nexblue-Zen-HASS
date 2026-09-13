@@ -1,0 +1,13 @@
+#################
+# Integral sensor
+#################
+entity_id: sensor.grid_export_energy
+state: '160.58'
+last_changed: '2026-09-13T17:53:01.112Z'
+last_updated: '2026-09-13T17:53:01.112Z'
+attributes:
+  state_class: total
+  source: sensor.grid_export_power
+  unit_of_measurement: kWh
+  device_class: energy
+  friendly_name: Grid Export Energy
