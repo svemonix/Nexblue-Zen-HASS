@@ -1,0 +1,13 @@
+##################
+# Integral Sensor
+##################
+entity_id: sensor.grid_import_energy
+state: '97.03'
+last_changed: '2026-09-13T19:55:55.181Z'
+last_updated: '2026-09-13T19:55:55.181Z'
+attributes:
+  state_class: total
+  source: sensor.grid_import_power
+  unit_of_measurement: kWh
+  device_class: energy
+  friendly_name: Grid Import Energy
