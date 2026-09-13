@@ -1,0 +1,105 @@
+- id: '1787776446906'
+  alias: NexBlue Solar Only after Sunrise if Ready
+  description: ''
+  triggers:
+  - trigger: sun.sunrise
+    options:
+      offset:
+        hours: 0
+        minutes: 30
+        seconds: 0
+        days: 0
+      offset_type: after
+  conditions:
+  - condition: state
+    entity_id: sensor.nexblue_edge_2_charging_state
+    state:
+    - Ready to charge
+  actions:
+  - action: shell_command.set_zen_mode_solar_only
+    metadata: {}
+    data: {}
+  - action: switch.turn_on
+    metadata: {}
+    target:
+      area_id: parking
+    data: {}
+  mode: single
+- id: '1787776571688'
+  alias: NexBlue Dynamic EcoPilot after Sunset if Charging
+  description: ''
+  triggers:
+  - trigger: sun.sunset
+    options:
+      offset:
+        hours: 0
+        minutes: 30
+        seconds: 0
+        days: 0
+      offset_type: before
+  conditions:
+  - condition: state
+    entity_id: sensor.nexblue_edge_2_charging_state
+    state:
+    - Charging
+    - Waiting for charging
+    - Waiting for available power
+    - Waiting for car response
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      device_id: 7bce0eb06f04443f201cbf390ad09687
+    data: {}
+  - action: shell_command.set_zen_mode_dynamic
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1787834077839'
+  alias: Nexblue Dynamic EcoPilot after Sunset if not Charging
+  description: ''
+  triggers:
+  - trigger: sun.sunset
+    options:
+      offset:
+        hours: 0
+        minutes: 30
+        seconds: 0
+        days: 0
+      offset_type: before
+  conditions:
+  - condition: state
+    entity_id: sensor.nexblue_edge_2_charging_state
+    state:
+    - Ready to charge
+    - Connect cable to charge
+  actions:
+  - action: shell_command.set_zen_mode_dynamic
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1787834418272'
+  alias: Nexblue Solar Only after Sunrise
+  description: ''
+  triggers:
+  - trigger: sun.sunrise
+    options:
+      offset:
+        hours: 0
+        minutes: 30
+        seconds: 0
+        days: 0
+      offset_type: after
+  conditions:
+  - condition: state
+    entity_id: sensor.nexblue_edge_2_charging_state
+    state:
+    - Connect cable to charge
+    - Charging
+    - Waiting for car response
+    - Waiting for available power
+  actions:
+  - action: shell_command.set_zen_mode_solar_only
+    metadata: {}
+    data: {}
+  mode: single
